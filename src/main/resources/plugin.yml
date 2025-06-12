@@ -1,0 +1,6 @@
+name: WorldBoarderFirstJoin
+version: '1.0-SNAPSHOT'
+main: com.chownnick.worldBoarderFirstJoin.WorldBoarderFirstJoin
+api-version: '1.21'
+authors: [ Ethman_G ]
+description: Adds x to worldboarder for every unique join.
