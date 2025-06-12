@@ -9,7 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.util.Objects;
 
-public final class WorldBoarderFirstJoin extends JavaPlugin implements Listener {
+public final class WorldBorderFirstJoin extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
@@ -26,6 +26,7 @@ public final class WorldBoarderFirstJoin extends JavaPlugin implements Listener 
                     @Override
                     public void run() {
 
+                        // Literal definition of "x"
                         int x = 250;
 
                         // Send announcement to players about changing world boarder
