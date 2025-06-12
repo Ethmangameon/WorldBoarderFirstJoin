@@ -1,0 +1,6 @@
+#Setting the amount the world border will increase in radius every unique player join.
+AmountToGrow:
+  #Size in blocks.
+  size: 250
+  #Speed in seconds.
+  speed: 0

@@ -14,6 +14,7 @@ public final class WorldBorderFirstJoin extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         getServer().getPluginManager().registerEvents(this, this);
+        saveResource("config.yml", /* replace */ false);
     }
 
     @EventHandler
@@ -27,18 +28,17 @@ public final class WorldBorderFirstJoin extends JavaPlugin implements Listener {
                     public void run() {
 
                         // Literal definition of "x"
-                        int x = 250;
+                        int size = getConfig().getInt("AmountToGrow.size");
+                        int speed = getConfig().getInt("AmountToGrow.speed");
 
                         // Send announcement to players about changing world boarder
                         for(Player p : Bukkit.getOnlinePlayers()) {
-                            p.sendMessage("A new player has joined (" + P.getName() + "), the world border will grow " + x + " blocks!");
+                            p.sendMessage("A new player has joined (" + P.getName() + "), the world border will grow " + size + " blocks!");
                         }
 
                         // Add X to current world boarder
                         Objects.requireNonNull(Bukkit.getWorld("world"))
-                                .getWorldBorder().setSize(
-                                        Objects.requireNonNull(Bukkit.getWorld("world")).getWorldBorder().getSize()
-                                                + x);
+                                .getWorldBorder().setSize(Objects.requireNonNull(Bukkit.getWorld("world")).getWorldBorder().getSize() + size, speed);
                     }
                 };
             // Check if server is running Folia and run the scheduler differently.

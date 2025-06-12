@@ -1,5 +1,5 @@
 name: WorldBoarderFirstJoin
-version: '1.1'
+version: '1.2'
 main: com.chownnick.worldBorderFirstJoin.WorldBorderFirstJoin
 folia-supported: 'true'
 api-version: '1.21'
