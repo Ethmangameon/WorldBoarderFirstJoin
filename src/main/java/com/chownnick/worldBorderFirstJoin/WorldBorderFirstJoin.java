@@ -1,13 +1,14 @@
 package com.chownnick.worldBorderFirstJoin;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.WorldBorder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import java.util.Objects;
 
 public final class WorldBorderFirstJoin extends JavaPlugin implements Listener {
 
@@ -19,7 +20,7 @@ public final class WorldBorderFirstJoin extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onJoinPlayerJoin(PlayerJoinEvent event) {
-        var P = event.getPlayer();
+        Player P = event.getPlayer();
         if (!P.hasPlayedBefore()) {
 
             BukkitRunnable r = new BukkitRunnable() {
@@ -27,26 +28,26 @@ public final class WorldBorderFirstJoin extends JavaPlugin implements Listener {
                     @Override
                     public void run() {
 
-                        // Literal definition of "x"
-                        int size = getConfig().getInt("AmountToGrow.size");
-                        int speed = getConfig().getInt("AmountToGrow.speed");
+                        int configSize = getConfig().getInt("AmountToGrow.size");
+                        int configMultiplier = getConfig().getInt("AmountToGrow.multiplier");
+                        int configSpeed = getConfig().getInt("AmountToGrow.speed");
 
-                        // Send announcement to players about changing world boarder
+                        World world = Bukkit.getWorld("world");
+                        assert world != null;
+                        WorldBorder border = world.getWorldBorder();
+                        int borderSize = (int) border.getSize();
+                        int sum = borderSize + (configMultiplier * configSize);
+                        border.setSize(sum, configSpeed);
+
                         for(Player p : Bukkit.getOnlinePlayers()) {
-                            p.sendMessage("A new player has joined (" + P.getName() + "), the world border will grow " + size + " blocks!");
+                            p.sendMessage("A new player has joined (" + P.getName() + "), the world border will grow " + (configMultiplier * configSize) + " blocks!");
+                            p.sendMessage("The world border is now " + sum + " blocks wide!");
                         }
-
-                        // Add X to current world boarder
-                        Objects.requireNonNull(Bukkit.getWorld("world"))
-                                .getWorldBorder().setSize(Objects.requireNonNull(Bukkit.getWorld("world")).getWorldBorder().getSize() + size, speed);
                     }
                 };
-            // Check if server is running Folia and run the scheduler differently.
             if (Bukkit.getVersionMessage().contains("Folia")) {
-                // Run if Folia
                 Bukkit.getGlobalRegionScheduler().execute(this, r);
             } else {
-                // Run if spigot/paper
                 Bukkit.getScheduler().getMainThreadExecutor(this).execute(r);
             }
         }
